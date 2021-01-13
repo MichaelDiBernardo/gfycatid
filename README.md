@@ -11,7 +11,7 @@ uniqueness-checking on your own.
 ## "Important" details
 
 - You can generate IDs with any number of adjectives.
-- Generators are safe for use with multiple goroutines
+- Generators are safe for use with multiple goroutines.
 - This library uses static lists that are published in the source files; the
   lists that gfycat publishes online haven't been changed in years.
 - You can override those lists by reassigning them at runtime: They're in the
@@ -30,8 +30,8 @@ import (
 func main() {
 	// Create a new generator.
 	nadj := 3
-	gen := gfycatid.Create(3)
+	gen := gfycatid.Create(nadj)
 	id := gen.Gen()
-	fmt.Println("gfycat ID is: ", id)
+	fmt.Printf("ID with %d adjectives is: '%s'", nadj, id)
 }
 ```
