@@ -3,8 +3,11 @@ package gfycatid
 import (
 	"errors"
 	"math/rand"
+	"strings"
 	"sync"
 	"time"
+
+	"github.com/MichaelDiBernardo/gfycatid/assets"
 )
 
 // Generator for gfycat-style IDs. Mutex is there to lock access to rand; the
@@ -12,7 +15,7 @@ import (
 // multiple goroutines.
 type Generator struct {
 	rand *rand.Rand
-	nadj uint
+	nadj uint // Number of adjectives to generate.
 	m    sync.Mutex
 }
 
@@ -37,47 +40,22 @@ func CreateWithSource(s rand.Source, nadj uint) (*Generator, error) {
 
 // Gen generates a new randomized ID with the # of adjectives specified at
 // construction.
-func (*Generator) Gen() string {
-	return ""
+func (gen *Generator) Gen() string {
+	var result strings.Builder
+	for n := uint(0); n < gen.nadj; n++ {
+		i := gen.r(assets.NumAdjectives)
+		adj := strings.Title(assets.Adjectives[i])
+		result.WriteString(adj)
+	}
+
+	i := gen.r(assets.NumAnimals)
+	animal := strings.Title(assets.Animals[i])
+	result.WriteString(animal)
+	return result.String()
 }
 
-// 	firstAdjective := adjectives[rand.Intn(len(adjectives))]
-// 	firstAdjective[0] = firstAdjective[0] - 32
-
-// 	secondAdjective := adjectives[rand.Intn(len(adjectives))]
-// 	secondAdjective[0] = secondAdjective[0] - 32
-
-// 	animal := animals[rand.Intn(len(animals))]
-// 	animal[0] = animal[0] - 32
-
-// 	id := bytes.Join([][]byte{firstAdjective, secondAdjective, animal}, []byte{})
-
-// 	return string(id)
-// }
-
-// // UpdateAssets() attempts to pull the latest assets from gfycat
-// func UpdateAssets() error {
-// 	adjectiveResp, err := http.Get(adjectivesURL)
-// 	if err != nil {
-// 		return err
-// 	}
-// 	defer adjectiveResp.Body.Close()
-// 	if b, err := ioutil.ReadAll(adjectiveResp.Body); err == nil {
-// 		assets.Adjectives = b
-// 	} else {
-// 		return err
-// 	}
-
-// 	animalResp, err := http.Get(animalsURL)
-// 	if err != nil {
-// 		return err
-// 	}
-// 	defer animalResp.Body.Close()
-// 	if b, err := ioutil.ReadAll(animalResp.Body); err == nil {
-// 		assets.Animals = b
-// 	} else {
-// 		return err
-// 	}
-
-// 	return nil
-// }
+func (gen *Generator) r(n int) int {
+	gen.m.Lock()
+	defer gen.m.Unlock()
+	return gen.rand.Intn(n)
+}

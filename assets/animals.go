@@ -1753,3 +1753,10 @@ var Animals = []string{
 	"zopilote",
 	"zorilla",
 }
+
+// NumAnimals pre-counts how many animals are in the list.
+var NumAnimals int
+
+func init() {
+	NumAnimals = len(Animals)
+}

@@ -1504,3 +1504,10 @@ var Adjectives = []string{
 	"yellow",
 	"yellowgreen",
 }
+
+// NumAdjectives pre-counts how many adjectives are in the list.
+var NumAdjectives int
+
+func init() {
+	NumAdjectives = len(Adjectives)
+}
