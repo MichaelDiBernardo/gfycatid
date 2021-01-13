@@ -1,5 +1,12 @@
 package assets
 
+// NumAnimals pre-counts how many animals are in the list.
+var NumAnimals int
+
+func init() {
+	NumAnimals = len(Animals)
+}
+
 // Animals list pulled from http://assets.gfycat.com/animals
 var Animals = []string{
 	"aardvark",
@@ -1752,11 +1759,4 @@ var Animals = []string{
 	"zooplankton",
 	"zopilote",
 	"zorilla",
-}
-
-// NumAnimals pre-counts how many animals are in the list.
-var NumAnimals int
-
-func init() {
-	NumAnimals = len(Animals)
 }

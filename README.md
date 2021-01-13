@@ -1,14 +1,21 @@
 # gfycatid
 
-This is a quick and dirty random id generator that uses [gfycats](https://gfycat.com) method of generating human readable IDs in the form `AdjectiveAdjectiveAnimal`.
+This is a rewrite of [this library](https://github.com/ilsiepotamus/gfycatid)
+that generates IDs in the style of [gfycats](https://gfycat.com). I have not
+checked up on how socially acceptable / memeworthy gfycats is at the current
+moment, so this might be tone-deaf, I'm not sure.
 
-## Requirements
+In case you're new to these IDs; they are cute, but you must do
+uniqueness-checking on your own.
 
-gfycatid requires [Golang](https://golang.org) version 1.5 or greater.
+## "Important" details
 
-## Installation
-
-	$ go get github.com/ilsiepotamus/gfycatid
+- You can generate IDs with any number of adjectives.
+- Generators are safe for use with multiple goroutines
+- This library uses static lists that are published in the source files; the
+  lists that gfycat publishes online haven't been changed in years.
+- You can override those lists by reassigning them at runtime: They're in the
+  `assets` subpackage.
 
 ## Example
 
@@ -17,18 +24,14 @@ package main
 
 import (
 	"fmt"
-	"github.com/ilsiepotamus/gfycatid"
+	"github.com/MichaelDiBernardo/gfycatid"
 )
 
 func main() {
-	// Update the static assets with anything new that gfycat might have made public
-	err := gfycatid.UpdateAssets()
-	if err != nil {
-		fmt.Println("Assets could not be updated.  Using the static assets.")
-	}
-
-	// Create a new ID
-	id := gfycatid.New()
+	// Create a new generator.
+	nadj := 3
+	gen := gfycatid.Create(3)
+	id := gen.Gen()
 	fmt.Println("gfycat ID is: ", id)
 }
 ```

@@ -1,5 +1,12 @@
 package assets
 
+// NumAdjectives pre-counts how many adjectives are in the list.
+var NumAdjectives int
+
+func init() {
+	NumAdjectives = len(Adjectives)
+}
+
 // Adjectives list pulled from http://assets.gfycat.com/adjectives.
 var Adjectives = []string{
 	"abandoned",
@@ -1503,11 +1510,4 @@ var Adjectives = []string{
 	"whitesmoke",
 	"yellow",
 	"yellowgreen",
-}
-
-// NumAdjectives pre-counts how many adjectives are in the list.
-var NumAdjectives int
-
-func init() {
-	NumAdjectives = len(Adjectives)
 }
