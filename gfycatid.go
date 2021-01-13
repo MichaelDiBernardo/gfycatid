@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/ilsiepotamus/gfycatid/assets"
+	"github.com/MichaelDiBernardo/gfycatid/assets"
 )
 
 var adjectives = bytes.Split(assets.Adjectives, []byte("\n"))
